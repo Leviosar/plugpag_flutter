@@ -19,6 +19,7 @@ import dev.gabul.pagseguro_smart_flutter.user.usecase.NewUserUseCase;
 import dev.gabul.pagseguro_smart_flutter.user.usecase.RefundUserUseCase;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+
 public class PagSeguroSmart {
   final PlugPag plugPag;
   final MethodChannel mChannel;
@@ -68,28 +69,10 @@ public class PagSeguroSmart {
     this.mChannel = channel;
   }
   public void initPayment(MethodCall call, MethodChannel.Result result) {
-    if(call.method.equals(PRINTER_FILE)) {
-      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
-      String filePath = call.argument("path");
-      printerPresenter.printerFromFile(filePath);
-    }
-
     if(call.method.equals(PRINTER)) {
       PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
-      String filePath = call.argument("path");
-      printerPresenter.printFile(filePath);
-    }
-
-    if(call.method.equals(PRINTER_BASIC)) {
-      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
-      String filePath = call.argument("path");
-      printerPresenter.printer(filePath);
-    }
-
-    if(call.method.equals(PRINTER_FILE_PATH)) {
-      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
-      String filePath = call.argument("path");
-      printerPresenter.printerByFilePath(filePath);
+      String path = call.argument("path");
+      printerPresenter.printFile(path);
     }
 
     if (this.payment == null) {
@@ -99,11 +82,11 @@ public class PagSeguroSmart {
     mUseCase = new NFCUseCase(plugPag);
     mFragment = new NFCFragment(mChannel);
     mUserManager = new UserDataManager(
-            new GetUserUseCase(mUseCase),
-            new NewUserUseCase(mUseCase),
-            new EditUserUseCase(mUseCase),
-            new DebitUserUseCase(mUseCase),
-            new RefundUserUseCase(mUseCase)
+      new GetUserUseCase(mUseCase),
+      new NewUserUseCase(mUseCase),
+      new EditUserUseCase(mUseCase),
+      new DebitUserUseCase(mUseCase),
+      new RefundUserUseCase(mUseCase)
     );
 
     this.nfcPayment = new NFCPresenter(mFragment, mUseCase, mUserManager);
@@ -121,11 +104,11 @@ public class PagSeguroSmart {
 
     if (call.method.equals(PAYMENT_DEBIT)) {
       this.payment.doDebitPayment(
-              (int) call.argument("value"),
-              (String) call.argument("userReference"),
-              (Boolean) call.argument("printReceipt"),
-              (Boolean) call.argument("partialPay"),
-              (Boolean) call.argument("isCarne")
+        (int) call.argument("value"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
       );
     } else if (call.method.equals(ACTIVE_PINPAD)) {
       this.payment.activate(call.argument("code"));
@@ -135,52 +118,52 @@ public class PagSeguroSmart {
       result.success(true);
     } else if (call.method.equals(PAYMENT_PIX)) {
       this.payment.doPixPayment(
-              (int) call.argument("value"),
-              (String) call.argument("userReference"),
-              (Boolean) call.argument("printReceipt"),
-              (Boolean) call.argument("partialPay"),
-              (Boolean) call.argument("isCarne")
+        (int) call.argument("value"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
       );
       result.success(true);
     } else if (call.method.equals(PAYMENT_CREDIT)) {
       this.payment.creditPayment(
-              (int) call.argument("value"),
-              (String) call.argument("userReference"),
-              (Boolean) call.argument("printReceipt"),
-              (Boolean) call.argument("partialPay"),
-              (Boolean) call.argument("isCarne")
+        (int) call.argument("value"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
       );
       result.success(true);
     } else if (call.method.equals(PAYMENT_CREDIT_PARC)) {
       this.payment.creditPaymentParc(
-          (int) call.argument("value"),
-          (int) call.argument("type"),
-          (int) call.argument("parc"),
-          (String) call.argument("userReference"),
-          (Boolean) call.argument("printReceipt"),
-          (Boolean) call.argument("partialPay"),
-          (Boolean) call.argument("isCarne")
-        );
-        result.success(true);
+        (int) call.argument("value"),
+        (int) call.argument("type"),
+        (int) call.argument("parc"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
+      );
+      result.success(true);
     } else if (call.method.equals(PAYMENT_VOUCHER)) {
       this.payment.doVoucherPayment(
-              (int) call.argument("value"),
-              (String) call.argument("userReference"),
-              (Boolean) call.argument("printReceipt"),
-              (Boolean) call.argument("partialPay"),
-              (Boolean) call.argument("isCarne")
+        (int) call.argument("value"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
       );
       result.success(true);
     } else if (call.method.equals(START_PAYMENT)) {
       this.payment.startPayment(
-              (int) call.argument("type"),
-              (int) call.argument("amount"),
-              (int) call.argument("installmentType"),
-              (int) call.argument("installments"),
-              (String) call.argument("userReference"),
-              (Boolean) call.argument("printReceipt"),
-              (Boolean) call.argument("partialPay"),
-              (Boolean) call.argument("isCarne")
+        (int) call.argument("type"),
+        (int) call.argument("amount"),
+        (int) call.argument("installmentType"),
+        (int) call.argument("installments"),
+        (String) call.argument("userReference"),
+        (Boolean) call.argument("printReceipt"),
+        (Boolean) call.argument("partialPay"),
+        (Boolean) call.argument("isCarne")
       );
       result.success(true);
     } else if (call.method.equals(PAYMENT_ABORT)) {
@@ -191,27 +174,21 @@ public class PagSeguroSmart {
       result.success(true);
     } else if (call.method.equals(REFUND)) {
       this.payment.doRefund(
-          call.argument("transactionCode"),
-          call.argument("transactionId")
-        );
+        call.argument("transactionCode"),
+        call.argument("transactionId")
+      );
       result.success(true);
     } else if(call.method.equals(READ_NFC)) {
       this.nfcPayment.readNFCCard(call.argument("idEvento"));
-    }
-    else if(call.method.equals(WRITE_NFC)) {
+    } else if(call.method.equals(WRITE_NFC)) {
       this.nfcPayment.writeNFCCard(call.argument("valor"), call.argument("nome"), call.argument("cpf"), call.argument("numeroTag"), call.argument("celular"), call.argument("aberto"), call.argument("idEvento"));
-    }
-    else if(call.method.equals(REWRITE_NFC)) {
+    } else if(call.method.equals(REWRITE_NFC)) {
       this.nfcPayment.reWriteNFCCard(call.argument("valor"), call.argument("idEvento"));
-    }
-
-    else if(call.method.equals(REFUND_NFC)) {
+    } else if(call.method.equals(REFUND_NFC)) {
       this.nfcPayment.reFundNFCCard(call.argument("valor"), call.argument("idEvento"));
-    }
-    else if(call.method.equals(FORMAT_NFC)) {
+    } else if(call.method.equals(FORMAT_NFC)) {
       this.nfcPayment.formatNFCCard();
-    }
-    else if(call.method.equals(DEBIT_NFC)) {
+    } else if(call.method.equals(DEBIT_NFC)) {
       this.nfcPayment.debitNFCCard(call.argument("idEvento"),call.argument("valor"));
     } else {
       result.notImplemented();

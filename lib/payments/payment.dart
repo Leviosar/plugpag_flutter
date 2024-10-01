@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/services.dart';
-
+import 'dart:io';
 import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
 import 'package:pagseguro_smart_flutter/payments/utils/payment_types.dart';
 
@@ -121,57 +121,13 @@ class Payment {
     return await channel.invokeMethod(PaymentTypeCall.PINPAD_AUTHENTICATED.method);
   }
 
-  //Function to printer from file path
-  Future<bool> printerfromFile(String path) async {
-    try {
-      await channel.invokeMethod(
-        PaymentTypeCall.PRINTER_FILE.method,
-        {
-          "path": path,
-        },
-      );
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
   //Function to printerFile from fileName
-  Future<bool> printerFile(String fileName) async {
+  Future<bool> print(File file) async {
     try {
       await channel.invokeMethod(
         PaymentTypeCall.PRINTER.method,
         {
-          "path": fileName,
-        },
-      );
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  //Function to printer from file path
-  Future<bool> printer(String filePath) async {
-    try {
-      await channel.invokeMethod(
-        PaymentTypeCall.PRINTER_BASIC.method,
-        {
-          "path": filePath,
-        },
-      );
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<bool> printerFilePath(String filePath) async {
-    try {
-      await channel.invokeMethod(
-        PaymentTypeCall.PRINTER_FILE_PATH.method,
-        {
-          "path": filePath,
+          "path": file.path,
         },
       );
       return true;
