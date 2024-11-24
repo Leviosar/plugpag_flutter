@@ -2,7 +2,9 @@ package dev.gabul.pagseguro_smart_flutter.core;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import com.google.gson.Gson;
+import androidx.annotation.Keep;
 
+@Keep
 public class ActionResult {
 
   int eventCode;
