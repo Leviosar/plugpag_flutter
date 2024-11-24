@@ -151,7 +151,6 @@ public class PaymentsPresenter {
   }
   public void activate(String activationCode) {
     Log.d("print", "*** ATIVANDO PINPAD: " + activationCode);
-    mFragment.onMessage("Ativando terminal");
     mSubscribe =
       mUseCase
         .initializeAndActivatePinpad(activationCode)
