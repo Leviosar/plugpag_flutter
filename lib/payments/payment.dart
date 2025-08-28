@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:pagseguro_smart_flutter/payments/handler/payment_handler.dart';
 import 'package:pagseguro_smart_flutter/payments/utils/payment_types.dart';
 
-//Fixed channel name
-const CHANNEL_NAME = "pagseguro_smart_flutter";
-const USER_REFERENCE = "SMARTFLUTTER"; //Only letters and numbers
+// Default user reference for payments (//Only letters and numbers)
+const USER_REFERENCE = "SMARTFLUTTER";
 
 class Payment {
+
   final MethodChannel channel;
   final PaymentHandler paymentHandler;
 
@@ -18,6 +18,7 @@ class Payment {
   }) {
     channel.setMethodCallHandler(_callHandler);
   }
+
   //Create external functions from invoke methodChannel
   //Function to active pinpad with sdk the PagSeguro
   Future<bool> activePinpad(String activationCode) async {
@@ -136,7 +137,7 @@ class Payment {
     }
   }
 
-//Function to listen to pagseguro returns in the native environment and notify Flutter
+  //Function to listen to pagseguro returns in the native environment and notify Flutter
   Future<dynamic> _callHandler(MethodCall call) async {
     switch (call.method.handler) {
       case PaymentTypeHandler.ON_TRANSACTION_SUCCESS:

@@ -5,6 +5,9 @@ import 'package:pagseguro_smart_flutter/payments/nfc.dart';
 import 'payments/handler/payment_handler.dart';
 import 'payments/payment.dart';
 
+// ignore: constant_identifier_names
+const CHANNEL_NAME = "pagseguro_smart_flutter";
+
 class PagseguroSmart {
   final MethodChannel _channel;
   Payment? _payment;
@@ -14,17 +17,14 @@ class PagseguroSmart {
 
   PagseguroSmart(this._channel);
 
-//GET instance from PagseguroSmart
   static PagseguroSmart instance() {
     _instance ??= PagseguroSmart(const MethodChannel(CHANNEL_NAME));
-    //Create instance from channel
     return _instance!;
   }
 
-//Function to init payment and register handler from notify
+  //Function to init payment and register handler from notify
   void initPayment(PaymentHandler handler) {
     _payment = Payment(channel: _channel, paymentHandler: handler);
-    //Register handler from notify
   }
 
   //Function to init nfc and register handler from notify
@@ -35,14 +35,14 @@ class PagseguroSmart {
 
   Payment get payment {
     if (_payment == null) {
-      throw "PAYMENT NEED INITIALIZE! \n TRY: PagseguroSmart._instance.initPayment(handler)";
+      throw "To use the payment platform first you need to initialize it. \n TRY: PagseguroSmart.instance().initPayment(handler)";
     }
     return _payment!;
   }
 
   Nfc get nfc {
     if (_nfc == null) {
-      throw "NFC NEED INITIALIZE! \n TRY: PagseguroSmart._instance.initNfc(handler)";
+      throw "To use the NFC platform first you need to initialize it! \n TRY: PagseguroSmart.instance().initNfc(handler)";
     }
     return _nfc!;
   }
