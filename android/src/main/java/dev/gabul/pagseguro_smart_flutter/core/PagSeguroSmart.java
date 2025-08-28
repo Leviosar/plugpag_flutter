@@ -24,6 +24,7 @@ public class PagSeguroSmart {
   final PlugPag plugPag;
   final MethodChannel mChannel;
   PaymentsPresenter payment;
+  PrinterPresenter printer;
 
   private NFCUseCase mUseCase;
   private NFCFragment mFragment;
@@ -54,11 +55,7 @@ public class PagSeguroSmart {
   private static final String DEBIT_NFC = "paymentDebitNfc";
 
   //Printer
-  private static final String PRINTER_FILE = "paymentPrinterFile";
   private static final String PRINTER = "paymentPrinter";
-
-  private static final String PRINTER_BASIC = "paymentPrinterBasic";
-  private static final String PRINTER_FILE_PATH = "paymentPrinterFilePath";
 
   public PagSeguroSmart(Context context, MethodChannel channel) {
     PlugPag instancePlugPag = new PlugPag(context);
@@ -68,11 +65,10 @@ public class PagSeguroSmart {
     this.plugPag = instancePlugPag;
     this.mChannel = channel;
   }
+
   public void initPayment(MethodCall call, MethodChannel.Result result) {
-    if(call.method.equals(PRINTER)) {
-      PrinterPresenter printerPresenter = new PrinterPresenter(this.plugPag, this.mChannel);
-      String path = call.argument("path");
-      printerPresenter.printFile(path);
+    if (this.printer == null) {
+      this.printer = new PrinterPresenter(this.plugPag, this.mChannel);
     }
 
     if (this.payment == null) {
@@ -91,18 +87,18 @@ public class PagSeguroSmart {
 
     this.nfcPayment = new NFCPresenter(mFragment, mUseCase, mUserManager);
     this.nfcPayment.dispose();
-
-    if (call.method.equals(REBOOT_DEVICE)) {
+    
+    if(call.method.equals(PRINTER)) {
+      this.printer.printFile(
+        call.argument("path")
+      );
+    } else if (call.method.equals(REBOOT_DEVICE)) {
       this.payment.rebootDevice();
       result.success(true);
-    }
-
-    if (call.method.equals(BEEP_PAYMENT)) {
+    } else if (call.method.equals(BEEP_PAYMENT)) {
       this.payment.beep();
       result.success(true);
-    }
-
-    if (call.method.equals(PAYMENT_DEBIT)) {
+    } else if (call.method.equals(PAYMENT_DEBIT)) {
       this.payment.doDebitPayment(
         (int) call.argument("value"),
         (String) call.argument("userReference"),
@@ -194,9 +190,14 @@ public class PagSeguroSmart {
       result.notImplemented();
     }
   }
+
   public void dispose() {
     if (this.payment != null) {
       this.payment.dispose();
+    }
+
+    if (this.printer != null) {
+      this.printer.dispose();
     }
   }
 }
