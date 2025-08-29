@@ -1,7 +1,6 @@
-name: pagseguro_smart_flutter
+name: plugpag
 description: Integre o Flutter com maquinas smarts da Pagseguro, utilizando o SDK do Pagseguro. Rápido e fácil.
 version: 1.2.0
-repository: https://github.com/gabuldev/pagseguro_smart_flutter
 
 environment:
   sdk: ">=2.16.2 <4.0.0"
@@ -20,7 +19,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: dev.gabul.pagseguro_smart_flutter
+        package: br.com.dataclick.plugpag
         pluginClass: PagseguroSmartFlutterPlugin
       ios:
         pluginClass: PagseguroSmartFlutterPlugin

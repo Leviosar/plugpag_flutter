@@ -1,4 +1,4 @@
-  <h1 align="center">Pagseguro Smart Flutter</h1>
+<h1 align="center">Pagseguro Plugpag SDK</h1>
 
 <div align="center" id="top"> 
   <img src="https://seeklogo.com/images/P/pagbank-logo-11812EDA89-seeklogo.com.png" alt="LojaExpressVarejista" height=40 />
@@ -15,8 +15,15 @@
 
 ## :dart: Sobre
 
-Projeto destinado a facilitar a integração com o SDK da PagSeguro Smart no Flutter.
-Funciona somente com máquinas smarts
+> O projeto é um fork feito a partir de [gabuldev/pagseguro_smart_flutter](https://github.com/gabuldev/pagseguro_smart_flutter) com o objetivo de melhorar a API exposta e facilitar a integração das funcionalidades disponíveis.
+
+Esse projeto tem como objetivo criar um SDK para utilização da plataforma Plupag fornecida pelo Pagbank através de aplicativos Flutter.
+
+Com essa integração você é capaz de rodar aplicativos Flutter completos nos terminais Smart, acessando todas as funcionalidades disponíveis no [PlugPagService Wrapper](https://developer.pagbank.com.br/docs/plugpagservice-wrapper).
+
+A documentação oficial do SDK original pode ser encontrada [aqui](https://developer.pagbank.com.br/docs/smartpos).
+
+Esse projeto não possui qualquer vínculo com o Pagbank e suas marcas.
 
 ## :rocket: Tecnologias
 
@@ -67,12 +74,12 @@ Em seu build.gradle a nivel do app, a propriedade `minSdkVersion` precisa ser le
 ```xml
 ...
 defaultConfig {
-        applicationId "com.example.pagseguro_example"
-        minSdkVersion 23
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-    }
+  applicationId "com.example.pagseguro_example"
+  minSdkVersion 23
+  targetSdkVersion flutter.targetSdkVersion
+  versionCode flutterVersionCode.toInteger()
+  versionName flutterVersionName
+}
 ...
 ```
 
